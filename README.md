@@ -6,7 +6,7 @@ by Arnav Goel and Pauline Peyalo (a2goel@ucsd.edu)
 
 ## Introduction
 
-In this project, we studied the effectiveness of spice challenges in building team morale.
+We studied the correlation between areas and power grid vulnerabilities. 
 
 ---
 
