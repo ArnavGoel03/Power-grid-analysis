@@ -40,7 +40,7 @@ hydejack:
 accent_color: "#252a34"
 theme_color:  "#252a34"
 cover_image:  ""
-sidebar_image: ""
+sidebar_image: /image1.jpg
 
 menu:
   - title: Home
