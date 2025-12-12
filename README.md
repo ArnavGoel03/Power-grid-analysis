@@ -97,8 +97,6 @@ This shows strong seasonal effects on outage duration. Severe weather leads to l
 
 Comparing outage duration across price groups shows that low-price states experience longer typical outages than high-price states, with both higher mean and median durations. This suggests that electricity pricing may serve as a proxy for infrastructure investment and grid reliability, motivating a formal hypothesis test of whether high-price states systematically experience shorter outages.
 
-Fuel supply emergencies produce the longest outages by a large margin. Severe weather is both frequent and long, which makes it especially important from a planning perspective.
-
 ---
 
 ## Assessment of Missingness
