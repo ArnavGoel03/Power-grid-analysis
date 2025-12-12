@@ -195,6 +195,16 @@ At the time of prediction we assume we know where and when the outage occurs plu
 
 We start with a **Linear Regression** baseline because it is simple, fast to train, and easy to interpret. As a baseline, it gives us a clear “minimum bar” for performance, and it helps us see whether our features contain any usable signal before moving to more flexible models.
 
+In this baseline, we assume outage duration can be approximated as a linear combination of our features plus noise. Formally, the model is:
+
+$$\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p,$$
+
+where \(y\) is `OUTAGE.DURATION`, the \(x_j\) are the (preprocessed) features, and the \(\beta_j\) coefficients are learned from the training data by minimizing squared error:
+
+$$\min_{\beta}\ \sum_{i=1}^{n} \left(y_i - \hat{y}_i\right)^2.$$
+
+This setup provides a transparent baseline because each coefficient represents the average change in predicted outage duration associated with a one-unit change in a feature (holding others fixed), after standardization and one-hot encoding.
+
 We restricted the baseline to a small but meaningful feature set to avoid overfitting and to keep the model aligned with what would realistically be known early in an outage: a proxy for local demand/urbanization (`POPDEN_URBAN`), an economic proxy for grid investment and structure (`RES.PRICE`), the type of event (`CAUSE.CATEGORY`), and seasonality effects (`MONTH`).
 
 Our feature set:
