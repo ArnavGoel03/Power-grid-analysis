@@ -35,6 +35,8 @@ We performed several data cleaning steps to make the outage records usable for a
 - Treated zeros in `CUSTOMERS.AFFECTED`, `OUTAGE.DURATION`, and `DEMAND.LOSS.MW` as missing values since “0” in this dataset typically reflects “not recorded” rather than a true zero, which avoids biasing distributions and keeps missingness analysis meaningful.
 - Removed unused identifier columns such as `OBS` and `variables`, reducing noise and preventing models from learning patterns tied to row identifiers instead of real outage drivers.
 
+<iframe src="assets/df_head.html" width="100%" height="300"></iframe>
+
 To understand the distribution of outage duration, we first plotted an ECDF:
 
 <iframe
