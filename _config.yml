@@ -20,7 +20,7 @@ description: "DSC 80 project on U.S. power outages."
 url: "https://arnavgoel03.github.io"
 baseurl: "/Power-grid-analysis"
 
-# CHANGE: Update to v9.2.1 to unlock Dark Mode for free
+# Version v9.2.1 is required for the free dark mode toggle
 remote_theme: hydecorp/hydejack@v9.2.1
 
 plugins:
@@ -32,25 +32,24 @@ plugins:
 # -----------------------
 locale: en
 
-# This section forces the dark theme
 hydejack:
-  dark_mode:
-    always: true    # This forces Dark Mode permanently
+  # Setting this to 'true' enables the sun/moon toggle button
+  dark_mode: true
 
-# This cleans up the sidebar style to match the left screenshot
+# Clean sidebar style
 accent_color: "#252a34"
 theme_color:  "#252a34"
-cover_image:  ""     # Removes the water background image
-sidebar_image: ""    # Removes any other sidebar image
+cover_image:  ""
+sidebar_image: ""
 
-# Sidebar Menu Links
 menu:
   - title: Home
     url: /
   - title: Analysis
     url: #section-analysis
   - title: Data
-    url: #section-data
+    # UPDATED LINK BELOW
+    url: https://engineering.purdue.edu/LASCI/research-data/outages/
   - title: GitHub
     url: https://github.com/arnavgoel03/Power-grid-analysis
     icon: icon-github
