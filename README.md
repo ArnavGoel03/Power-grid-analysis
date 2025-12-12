@@ -265,6 +265,7 @@ We used a permutation-based fairness test to check whether our **final Random Fo
 - **Metric:** RMSE (computed separately for each group)
 
 - **Test statistic:**
+- Absolute difference in RMSE
   $$T = \left| \mathrm{RMSE}_{\mathrm{weather}} - \mathrm{RMSE}_{\mathrm{non\text{-}weather}} \right|$$
 
 - **Significance level:** $\alpha = 0.05$
@@ -280,7 +281,7 @@ We used a permutation-based fairness test to check whether our **final Random Fo
   3. Recompute \(T\) each time to form the null distribution.
   4. The p-value is the fraction of shuffled \(T\) values at least as large as the observed \(T\).
 
-- **Result:** The permutation test produced **p ≈ 0.366**, so at \(\alpha = 0.05\) we **fail to reject H₀**. The results do not provide sufficient statistical evidence that the model performs differently for severe weather outages than for non-weather outages. Therefore, we do not find the model to perform unfairly under this metric.
+- **Result:** The permutation test produced **p ≈ 0.366**, so at $\alpha = 0.05$ we **fail to reject H₀**. The results do not provide sufficient statistical evidence that the model performs differently for severe weather outages than for non-weather outages. Therefore, we do not find the model to perform unfairly under this metric.
 
 
 <img src="assets/fairness_rmse_perm.png" width="800" height="600" alt="Permutation test RMSE difference by weather group">
