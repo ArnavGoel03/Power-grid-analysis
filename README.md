@@ -1,4 +1,4 @@
-
+4
 by Arnav Goel and Paulina Pelayo (a2goel@ucsd.edu & ppelayo@ucsd.edu)
 
 ---
@@ -20,7 +20,9 @@ Our central question is:
 
 > **How do weather conditions, electricity prices, and population density relate to the severity of major power outages, measured by outage duration?**
 
-Understanding these relationships matters for both utilities and policy makers. It can inform how crews are allocated during extreme events, where to invest in grid hardening, and what communities are most at risk of long outages.
+Understanding how weather, electricity prices, and population density connect to outage duration helps utilities and policy makers predict where long outages are most likely, stage crews earlier, and invest in grid hardening where it actually matters.
+
+This is getting more urgent as AI ramps up electricity demand through data centers and constant compute. A grid under heavier, more continuous load has less slack when storms hit, so failures can last longer and affect more people. Studying what drives outage severity is basically planning for a future where both climate stress and computing demand keep rising.
 
 ---
 
@@ -28,10 +30,10 @@ Understanding these relationships matters for both utilities and policy makers. 
 
 We performed several data cleaning steps to make the outage records usable for analysis:
 
-- Combined separate date and time columns into full timestamps `OUTAGE.START` and `OUTAGE.RESTORATION`.
-- Dropped impossible records where the restoration time was earlier than the start time.
-- Treated zeros in `CUSTOMERS.AFFECTED`, `OUTAGE.DURATION`, and `DEMAND.LOSS.MW` as missing values, since in this dataset zero really means “not recorded”.
-- Removed unused identifier columns such as `OBS` and `variables`.
+- Combined separate date and time columns into full timestamps `OUTAGE.START` and `OUTAGE.RESTORATION`, which makes time based comparisons consistent and lets us validate duration logic before doing any EDA or modeling.
+- Dropped impossible records where the restoration time was earlier than the start time, preventing negative or corrupted OUTAGE.DURATION values from skewing the ECDF and inflating error in downstream models.
+- Treated zeros in `CUSTOMERS.AFFECTED`, `OUTAGE.DURATION`, and `DEMAND.LOSS.MW` as missing values since “0” in this dataset typically reflects “not recorded” rather than a true zero, which avoids biasing distributions and keeps missingness analysis meaningful.
+- Removed unused identifier columns such as `OBS` and `variables`, reducing noise and preventing models from learning patterns tied to row identifiers instead of real outage drivers.
 
 To understand the distribution of outage duration, we first plotted an ECDF:
 
