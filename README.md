@@ -264,16 +264,15 @@ We used a permutation-based fairness test to check whether our **final Random Fo
 
 - **Metric:** RMSE (computed separately for each group)
 
-- **Test statistic:**  
-  \[
-  T = \left| \text{RMSE}_{\text{weather}} - \text{RMSE}_{\text{non-weather}} \right|
-  \]
+- **Test statistic:**
+  $$T = \left| \mathrm{RMSE}_{\mathrm{weather}} - \mathrm{RMSE}_{\mathrm{non\text{-}weather}} \right|$$
 
+- **Significance level:** $\alpha = 0.05$
+  
 - **Hypotheses:**
   - **Null Hypothesis (H₀):** The model’s RMSE is the same for severe weather and non-weather outages.  
   - **Alternative Hypothesis (H₁):** The model’s RMSE differs between severe weather and non-weather outages.
 
-- **Significance level:** \(\alpha = 0.05\)
 
 - **Procedure:**
   1. Compute RMSE for Group X and Group Y on the test set.
