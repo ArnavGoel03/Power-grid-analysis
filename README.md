@@ -1,4 +1,3 @@
-# Storms, Prices, and the Power Grid
 
 by Arnav Goel and Paulina Pelayo (a2goel@ucsd.edu & ppelayo@ucsd.edu)
 
