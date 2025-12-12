@@ -199,7 +199,7 @@ In this baseline, we assume outage duration can be approximated as a linear comb
 
 $$\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p,$$
 
-where \(y\) is `OUTAGE.DURATION`, the \(x_j\) are the (preprocessed) features, and the \(\beta_j\) coefficients are learned from the training data by minimizing squared error:
+where \(y\) is `OUTAGE.DURATION`, the x_i are the (preprocessed) features, and the beta_i coefficients are learned from the training data by minimizing squared error:
 
 $$\min_{\beta}\ \sum_{i=1}^{n} \left(y_i - \hat{y}_i\right)^2.$$
 
@@ -214,7 +214,7 @@ Our feature set:
 - `CAUSE.CATEGORY`  
 - `MONTH`
 
-Additionally, ee dropped rows where `OUTAGE.DURATION` is missing.
+Additionally, we dropped rows where `OUTAGE.DURATION` is missing.
 
 To make the model usable on messy real data, we fit everything inside a single scikit-learn **Pipeline** with a **ColumnTransformer**:
 
@@ -238,29 +238,46 @@ This indicates modest predictive ability as the model explains about 16.5% of th
 
 ## Final Model
 
-For the final model we added two features that better reflect the data generating process:
+### Features added and why they make sense (data generating process)
 
-1. **`IS_WEATHER`** – an indicator for whether the outage was caused by severe weather  
-2. **`LOG_POPDEN`** – `log1p` of urban population density, which reduces extreme skew and models diminishing returns in very dense grids
+To better reflect how outages happen and get resolved, we added two features:
 
-Our final feature set included:
+1. **`IS_WEATHER`** (severe weather indicator)  
+   Severe weather outages are driven by a different failure and recovery process than non-weather outages. Storms can cause widespread, simultaneous damage across a region, which can delay restoration due to limited crews, blocked access, and cascading infrastructure impacts. Encoding this as a binary feature helps the model separate weather-driven outages from other causes instead of forcing one “average” relationship across all events.
 
-- `LOG_POPDEN`, `IS_WEATHER`, `RES.PRICE`, `MONTH`, and `CAUSE.CATEGORY`
+2. **`LOG_POPDEN` = log1p(`POPDEN_URBAN`)**  
+   Urban density is highly skewed, and its effect on restoration is plausibly nonlinear. Moving from low to medium density can change outage logistics a lot, but going from already-dense to extremely-dense areas may have diminishing returns. Taking `log1p` reduces the influence of extreme values and better matches this “diminishing returns” structure.
 
-We kept the same train test split and built another scikit learn `Pipeline` that:
+Our final feature set was: `LOG_POPDEN`, `IS_WEATHER`, `RES.PRICE`, `MONTH`, and `CAUSE.CATEGORY`.
 
-- Imputed numeric features with the median  
-- Imputed `CAUSE.CATEGORY` with the most frequent value and one hot encoded it  
-- Fit a `RandomForestRegressor`
+---
 
-We tuned tree depth, number of trees, and minimum samples per leaf using `GridSearchCV` with 5 fold cross validation.
+### Modeling algorithm and how we selected hyperparameters
 
-On the held out test set the best model achieved:
+We used a **RandomForestRegressor** because outage duration depends on nonlinear interactions (for example, the effect of a cause can differ by month or weather conditions), and random forests can capture these patterns without requiring us to manually specify them.
 
-- **Final RMSE**: about **6,189** minutes  
-- **Final R²**: about **0.220**
+We kept the same train/test split and used a single scikit-learn **Pipeline**:
+- Numeric features: median imputation  
+- `CAUSE.CATEGORY`: most-frequent imputation + one-hot encoding  
+- Model: RandomForestRegressor
+  
+To select the final Random Forest, we used **GridSearchCV (5-fold CV)** over the following hyperparameters (tree depth, estimators, etc.):
 
-Compared to the baseline, the final model reduces RMSE by around 200 minutes and increases R² by several percentage points. This shows that explicitly modeling weather driven outages and the nonlinear effect of urban density improves our ability to predict outage duration.
+- `n_estimators` ∈ {100, 200}
+- `max_depth` ∈ {None, 10, 20}
+- `min_samples_leaf` ∈ {1, 5}
+
+We chose the best setting based on cross-validated performance (negative RMSE), then evaluated that best model once on the held-out test set.
+
+---
+
+### Performance and improvement over baseline
+
+On the held-out test set, the final model achieved:
+- **Final RMSE:** ~**6,189** minutes  
+- **Final R²:** ~**0.220**
+
+Compared to the baseline (RMSE ~6,404; R² ~0.165), this improves RMSE by ~200 minutes and increases explained variance by several percentage points. This is consistent with the added features helping the model better separate weather-driven dynamics and handle the nonlinear effect of density, while the random forest captures interactions the linear baseline cannot.
 
 ---
 
@@ -275,7 +292,7 @@ We used a permutation-based fairness test to check whether our **final Random Fo
 - **Metric:** RMSE (computed separately for each group)
 
 - **Test statistic:**
-- Absolute difference in RMSE
+  Absolute difference in RMSE
   $$T = \left| \mathrm{RMSE}_{\mathrm{weather}} - \mathrm{RMSE}_{\mathrm{non\text{-}weather}} \right|$$
 
 - **Significance level:** alpha = 0.05
