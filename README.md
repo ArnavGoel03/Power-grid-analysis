@@ -93,6 +93,10 @@ To better compare the severity of different causes, we summarized outage duratio
 | intentional attack       |  332  | 521.9               | 92.5                  |
 | islanding                |   44  | 200.5               | 77.5                  |
 
+<iframe src="assets/duration_by_cause_table.html" width="100%" height="260" frameborder="0"></iframe>
+<iframe src="assets/pivot_cause_season_table.html" width="100%" height="320" frameborder="0"></iframe>
+<iframe src="assets/duration_by_price_table.html" width="100%" height="220" frameborder="0"></iframe>
+
 Fuel supply emergencies produce the longest outages by a large margin. Severe weather is both frequent and long, which makes it especially important from a planning perspective.
 
 ---
