@@ -256,24 +256,29 @@ Compared to the baseline, the final model reduces RMSE by around 200 minutes and
 
 ## Fairness Analysis
 
-Finally, we asked whether our final model performs differently for weather related outages than for outages with other causes.
+We performed a permutation-based fairness analysis to evaluate whether our final Random Forest model performs differently for severe weather versus non-weather outages using RMSE as the evaluation metric.
 
 We defined two groups using the `IS_WEATHER` feature:
 
 - Group X: outages caused by severe weather (`IS_WEATHER = 1`)  
 - Group Y: outages caused by all other factors (`IS_WEATHER = 0`)
 
-Our fairness metric was the difference in RMSE between these two groups on the test set.
+- Evaluation metric: The difference in RMSE between these two groups on the test set.
+
+- **Null Hypothesis (H₀):** The model’s RMSE is the same for severe weather and non-weather outages.  
+- **Alternative Hypothesis (H₁):** The model’s RMSE differs between severe weather and non-weather outages.
+
+- Test statistic used : **absolute** difference in RMSE
+- Significance level : α = 0.05
 
 - Compute RMSE for Group X and Group Y  
-- Use the **absolute** difference in RMSE as the test statistic  
 - Perform a permutation test that repeatedly shuffles the group labels while keeping predictions fixed
 
 The observed RMSE difference was compared against the permutation distribution of differences from 1,000 shuffles. The resulting p value was about **0.366**.
 
 <img src="assets/fairness_rmse_perm.png" width="800" height="600" alt="Permutation test RMSE difference by weather group">
 
-At α = 0.05 we **fail to reject** the null hypothesis that the model’s RMSE is the same for weather and non weather outages. Under this metric we do not find evidence that the model is systematically less accurate for weather driven outages than for other outages.
+At a significance level of α = 0.05, we fail to reject the null hypothesis. The results do not provide sufficient statistical evidence that the model performs differently for severe weather outages than for non-weather outages. Therefore, we do not find the model to perform unfairly under this metric.
 
 ---
 
