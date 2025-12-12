@@ -1,6 +1,6 @@
 # Storms, Prices, and the Power Grid
 
-by Arnav Goel and Paulina Pelayo (a2goel@ucsd.edu)
+by Arnav Goel and Paulina Pelayo (a2goel@ucsd.edu & pepelayo@ucsd.edu)
 
 ---
 
@@ -241,12 +241,7 @@ Our fairness metric was the difference in RMSE between these two groups on the t
 
 The observed RMSE difference was compared against the permutation distribution of differences from 1,000 shuffles. The resulting p value was about **0.366**.
 
-<iframe
-  src="assets/fairness_rmse_perm.html"
-  width="800"
-  height="600"
-  frameborder="0"
-></iframe>
+<img src="assets/fairness_rmse_perm.png" width="800" height="600" alt="Permutation test RMSE difference by weather group">
 
 At α = 0.05 we **fail to reject** the null hypothesis that the model’s RMSE is the same for weather and non weather outages. Under this metric we do not find evidence that the model is systematically less accurate for weather driven outages than for other outages.
 
