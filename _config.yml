@@ -12,13 +12,40 @@
 # title: Power-grid-analysis
 # description: this is a project for DSC 80 at UCSD.
 
-remote_theme: hydecorp/[email protected]
+# -----------------------
+# MAIN CONFIGURATION
+# -----------------------
+title: Storms, Prices, and the Power Grid
+description: "DSC 80 project on U.S. power outages."
+url: "https://arnavgoel03.github.io"
+baseurl: "/Power-grid-analysis"
+
+# Using a specific version tag is safer to prevent breaking changes
+remote_theme: hydecorp/hydejack@v9.1.6
 
 plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
 
-title: Storms, Prices, and the Power Grid
-description: "DSC 80 project on U.S. power outages."
-url: "https://arnavgoel03.github.io"
-baseurl: "/Power-grid-analysis"
+# -----------------------
+# HYDEJACK SPECIFIC SETTINGS
+# -----------------------
+locale: en
+
+# This section populates the left sidebar
+author:
+  name: "Arnav Goel"
+  bio: "DSC 80 Project Analysis"
+  # I saw 'image1.jpg' in your file tree screenshot; this makes it your profile pic
+  avatar: /image1.jpg
+  social:
+    github: arnavgoel03
+
+# Visual Settings
+theme_color: "#252a34"   # Dark background color
+accent_color: "#3897f0"  # Link/Accent color
+google_fonts: "Roboto+Slab:400,700|Roboto:400,700"
+
+# Sidebar behavior
+sidebar:
+  open: true # Keeps the sidebar open on desktop screens
