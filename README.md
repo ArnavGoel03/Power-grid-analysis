@@ -264,8 +264,11 @@ To select the final Random Forest, we used **GridSearchCV (5-fold CV)** over the
 - `n_estimators` ∈ {100, 200}
 - `max_depth` ∈ {None, 10, 20}
 - `min_samples_leaf` ∈ {1, 5}
+  
+The best-performing model used n_estimators = 200, max_depth = None, and min_samples_leaf = 5.
 
 We chose the best setting based on cross-validated performance (negative RMSE), then evaluated that best model once on the held-out test set.
+ 
 
 ---
 
