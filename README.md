@@ -168,13 +168,18 @@ Justification -
 We next turned our descriptive findings into a prediction task.
 
 - **Prediction problem**: Predict the duration of a major power outage in minutes.
+- **Problem type**: Regression  
  
 - **Response variable**: `OUTAGE.DURATION`
 
 Predicting outage duration matters because it gives utilities a way to estimate restoration timelines, triage scarce crews, and communicate expectations to customers and emergency services.
 
-- **Problem type**: Regression  
 - **Evaluation metrics**: Root Mean Squared Error (RMSE) and R²
+
+- **RMSE**: We use RMSE because it measures prediction error in the same units as the target (minutes), which makes it directly interpretable for outage planning. RMSE also penalizes large mistakes more than MAE, which matters here since severely underestimating a long outage is more costly than being slightly off on a short outage.
+
+- **R²**: We include R² to summarize how much variation in outage duration our features explain compared to a simple baseline (predicting the mean). This helps contextualize RMSE, since an RMSE value alone can be hard to judge without knowing how predictable the outcome is overall.
+  
 
 At the time of prediction we assume we know where and when the outage occurs plus high level information about the event, such as its cause, but not its eventual duration. Features we consider include:
 
@@ -188,28 +193,36 @@ At the time of prediction we assume we know where and when the outage occurs plu
 
 ## Baseline Model
 
-For our baseline model we restricted ourselves to a small but meaningful feature set:
+We start with a **Linear Regression** baseline because it is simple, fast to train, and easy to interpret. As a baseline, it gives us a clear “minimum bar” for performance, and it helps us see whether our features contain any usable signal before moving to more flexible models.
+
+We restricted the baseline to a small but meaningful feature set to avoid overfitting and to keep the model aligned with what would realistically be known early in an outage: a proxy for local demand/urbanization (`POPDEN_URBAN`), an economic proxy for grid investment and structure (`RES.PRICE`), the type of event (`CAUSE.CATEGORY`), and seasonality effects (`MONTH`).
+
+Our feature set:
 
 - `POPDEN_URBAN`  
 - `RES.PRICE`  
 - `CAUSE.CATEGORY`  
 - `MONTH`
 
-We dropped rows where `OUTAGE.DURATION` is missing and used a single scikit learn `Pipeline`:
+Additionally, ee dropped rows where `OUTAGE.DURATION` is missing.
 
-- Numerical features (`POPDEN_URBAN`, `RES.PRICE`, `MONTH`)  
-  - Imputed with the median  
-  - Standardized with `StandardScaler`  
-- Categorical features (`CAUSE.CATEGORY`)  
-  - Imputed with the most frequent category  
+To make the model usable on messy real data, we fit everything inside a single scikit-learn **Pipeline** with a **ColumnTransformer**:
+
+- Numerical (quantitative) features (`POPDEN_URBAN`, `RES.PRICE`, `MONTH`)  
+  - Imputed with the median : To handle missing values robustly
+  - Standardized with `StandardScaler` : So that the regression coefficients are on a comparable scale
+- Categorical features (`CAUSE.CATEGORY`)
+  - Nominal feature
+  - Imputed with the most frequent category
   - One hot encoded
+  - Allows the model to learn different baseline duration shifts for each cause type.
 
-We then fit a `LinearRegression` model and evaluated on a held out test set.
+We evaluated this model on a held out test set.
 
 - **Baseline RMSE**: about **6,404** minutes  
 - **Baseline R²**: about **0.165**
 
-The model captures some signal but leaves most of the variation in outage duration unexplained, and errors are still very large in absolute time. This motivated us to engineer additional features and move to a more flexible model.
+This indicates modest predictive ability as the model explains about 16.5% of the total variation in outage duration and makes relatively large prediction errors in absolute time. Thus, the model captures some signal but leaves most of the variation in outage duration unexplained which motivated us to engineer additional features and move to a more flexible model.
 
 ---
 
