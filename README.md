@@ -83,16 +83,6 @@ Outages that affect more customers tend to last longer on average, but there is 
 
 To better compare the severity of different causes, we summarized outage duration by `CAUSE.CATEGORY`:
 
-| Cause Category            | Count | Mean Duration (min) | Median Duration (min) |
-|--------------------------|------:|--------------------:|----------------------:|
-| fuel supply emergency    |   38  | 13484.0             | 3960.0                |
-| severe weather           |  741  | 3899.7              | 2464.0                |
-| equipment failure        |   54  | 1850.6              | 224.0                 |
-| public appeal            |   69  | 1468.4              | 455.0                 |
-| system operability disruption | 120 | 747.1             | 222.0                 |
-| intentional attack       |  332  | 521.9               | 92.5                  |
-| islanding                |   44  | 200.5               | 77.5                  |
-
 <iframe src="assets/duration_by_cause_table.html" width="100%" height="260" frameborder="0"></iframe>
 <iframe src="assets/pivot_cause_season_table.html" width="100%" height="320" frameborder="0"></iframe>
 <iframe src="assets/duration_by_price_table.html" width="100%" height="220" frameborder="0"></iframe>
