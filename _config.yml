@@ -20,6 +20,5 @@ plugins:
 
 title: Storms, Prices, and the Power Grid
 description: "DSC 80 project on U.S. power outages."
-
 url: "https://arnavgoel03.github.io"
 baseurl: "/Power-grid-analysis"
