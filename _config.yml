@@ -20,49 +20,47 @@ description: "DSC 80 project on U.S. power outages."
 url: "https://arnavgoel03.github.io"
 baseurl: "/Power-grid-analysis"
 
-remote_theme: hydecorp/hydejack@v9.1.6
+# CHANGE: Update to v9.2.1 to unlock Dark Mode for free
+remote_theme: hydecorp/hydejack@v9.2.1
 
 plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
 
 # -----------------------
-# THEME SETTINGS (To match the demo)
+# THEME SETTINGS
 # -----------------------
 locale: en
 
-# 1. FORCE DARK MODE (Matches the left screenshot)
+# This section forces the dark theme
 hydejack:
   dark_mode:
-    always: true
+    always: true    # This forces Dark Mode permanently
 
-# 2. SIDEBAR MENU
-# This creates the links in the sidebar (Blog, Resume, etc.)
+# This cleans up the sidebar style to match the left screenshot
+accent_color: "#252a34"
+theme_color:  "#252a34"
+cover_image:  ""     # Removes the water background image
+sidebar_image: ""    # Removes any other sidebar image
+
+# Sidebar Menu Links
 menu:
   - title: Home
     url: /
   - title: Analysis
-    url: #section-analysis  # Example link to a section
+    url: #section-analysis
   - title: Data
-    url: #section-data      # Example link to a section
+    url: #section-data
   - title: GitHub
     url: https://github.com/arnavgoel03/Power-grid-analysis
     icon: icon-github
 
-# 3. SIDEBAR STYLE
-accent_color: "#252a34" # Dark grey/blue accent
-theme_color:  "#252a34"
-cover_image:  ""        # Clear this to remove the water image background
-sidebar_image: ""       # Clear this to get the clean solid look
-
-# 4. AUTHOR PROFILE
 author:
   name: "Arnav Goel"
   bio: "DSC 80 Analysis"
-  avatar: /image1.jpg  # Your profile pic
+  avatar: /image1.jpg
   social:
     github: arnavgoel03
-    email:  example@ucsd.edu
 
 sidebar:
   open: true
