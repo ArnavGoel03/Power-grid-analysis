@@ -1,4 +1,4 @@
-4
+
 by Arnav Goel and Paulina Pelayo (a2goel@ucsd.edu & ppelayo@ucsd.edu)
 
 ---
@@ -84,8 +84,18 @@ Outages that affect more customers tend to last longer on average, but there is 
 To better compare the severity of different causes, we summarized outage duration by `CAUSE.CATEGORY`:
 
 <iframe src="assets/duration_by_cause_table.html" width="100%" height="260" frameborder="0"></iframe>
+
+Fuel supply emergencies have the longest average and median outage durations, indicating rare but extremely severe events. Severe weather is the most common cause and also produces long outages. Intentional attacks and islanding tend to be shorter disruptions on average.
+
+
 <iframe src="assets/pivot_cause_season_table.html" width="100%" height="320" frameborder="0"></iframe>
+
+This shows strong seasonal effects on outage duration. Severe weather leads to long outages across all seasons. Fuel supply emergencies are most severe in winter, likely due to heating demands and constrained energy supply. Summer shows higher durations for operability failure, possibly from increased use of air conditioning and peak electricity usage.
+
+
 <iframe src="assets/duration_by_price_table.html" width="100%" height="220" frameborder="0"></iframe>
+
+Comparing outage duration across price groups shows that low-price states experience longer typical outages than high-price states, with both higher mean and median durations. This suggests that electricity pricing may serve as a proxy for infrastructure investment and grid reliability, motivating a formal hypothesis test of whether high-price states systematically experience shorter outages.
 
 Fuel supply emergencies produce the longest outages by a large margin. Severe weather is both frequent and long, which makes it especially important from a planning perspective.
 
@@ -129,7 +139,7 @@ This is also reflected in the box plot below:
   frameborder="0"
 ></iframe>
 
-Overall, the missingness mechanism for `DEMAND.LOSS.MW` appears consistent with MAR with respect to outage cause but potentially NMAR with respect to the true magnitude of demand loss itself.
+Permutation tests show that the missingness of DEMAND.LOSS.MW depends strongly on CAUSE.CATEGORY (p ≈ 0), indicating that missingness is not purely random and is related to observed outage characteristics. In contrast, missingness does not appear to depend on MONTH (p ≈ 0.23), suggesting no seasonal reporting bias. Therefore, the missingness mechanism is consistent with MAR with respect to outage cause, while remaining potentially NMAR with respect to the true unobserved magnitude of power lost.
 
 ---
 
@@ -144,14 +154,25 @@ We split states into “High Price” and “Low Price” groups using the media
 
 A permutation test with 1,000 random label shuffles produced a p value of about **0.007**. At a significance level of α = 0.05 we reject the null hypothesis. The evidence suggests that states with higher residential prices tend to have **shorter** outage durations than states with lower prices, which is consistent with the idea that higher prices may be associated with greater investment in grid reliability.
 
+Justification - 
+
+- **High vs Low Price split (median `RES.PRICE`)**: Creates two balanced groups without an arbitrary cutoff, making it easy to compare outage durations between “higher priced” and “lower priced” states.
+- **Permutation test**: Outage durations are highly right-skewed, so a nonparametric shuffle test avoids normality assumptions and directly checks whether the observed difference could occur by chance.
+- **One-sided ECDF/KS-style statistic**: Matches our directional question (“are high-price states shorter?”) and compares the full distributions rather than just the mean, which can be dominated by extreme outages.
+- **Significance level \(\alpha = 0.05\)**: A standard threshold that provides a reasonable balance between false positives and false negatives for this context.
+
 ---
 
 ## Framing a Prediction Problem
 
 We next turned our descriptive findings into a prediction task.
 
-- **Prediction problem**: Predict the duration of a major power outage in minutes.  
-- **Response variable**: `OUTAGE.DURATION`  
+- **Prediction problem**: Predict the duration of a major power outage in minutes.
+ 
+- **Response variable**: `OUTAGE.DURATION`
+
+Predicting outage duration matters because it gives utilities a way to estimate restoration timelines, triage scarce crews, and communicate expectations to customers and emergency services.
+
 - **Problem type**: Regression  
 - **Evaluation metrics**: Root Mean Squared Error (RMSE) and R²
 
@@ -162,7 +183,6 @@ At the time of prediction we assume we know where and when the outage occurs plu
 - Economic features: `RES.PRICE`, `COM.PRICE`, `IND.PRICE`  
 - Event level features: `CAUSE.CATEGORY`
 
-Predicting outage duration matters because it gives utilities a way to estimate restoration timelines, triage scarce crews, and communicate expectations to customers and emergency services.
 
 ---
 
