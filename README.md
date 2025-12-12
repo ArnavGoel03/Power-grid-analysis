@@ -256,29 +256,36 @@ Compared to the baseline, the final model reduces RMSE by around 200 minutes and
 
 ## Fairness Analysis
 
-We performed a permutation-based fairness analysis to evaluate whether our final Random Forest model performs differently for severe weather versus non-weather outages using RMSE as the evaluation metric.
+We used a permutation-based fairness test to check whether our **final Random Forest** model performs differently on **severe weather** vs **non-weather** outages, using **RMSE** on the test set.
 
-We defined two groups using the `IS_WEATHER` feature:
+- **Groups (using `IS_WEATHER`):**
+  - **Group X:** severe weather outages (`IS_WEATHER = 1`)
+  - **Group Y:** non-weather outages (`IS_WEATHER = 0`)
 
-- Group X: outages caused by severe weather (`IS_WEATHER = 1`)  
-- Group Y: outages caused by all other factors (`IS_WEATHER = 0`)
+- **Metric:** RMSE (computed separately for each group)
 
-- Evaluation metric: The difference in RMSE between these two groups on the test set.
+- **Test statistic:**  
+  \[
+  T = \left| \text{RMSE}_{\text{weather}} - \text{RMSE}_{\text{non-weather}} \right|
+  \]
 
-- **Null Hypothesis (H₀):** The model’s RMSE is the same for severe weather and non-weather outages.  
-- **Alternative Hypothesis (H₁):** The model’s RMSE differs between severe weather and non-weather outages.
+- **Hypotheses:**
+  - **Null Hypothesis (H₀):** The model’s RMSE is the same for severe weather and non-weather outages.  
+  - **Alternative Hypothesis (H₁):** The model’s RMSE differs between severe weather and non-weather outages.
 
-- Test statistic used : **absolute** difference in RMSE
-- Significance level : α = 0.05
+- **Significance level:** \(\alpha = 0.05\)
 
-- Compute RMSE for Group X and Group Y  
-- Perform a permutation test that repeatedly shuffles the group labels while keeping predictions fixed
+- **Procedure:**
+  1. Compute RMSE for Group X and Group Y on the test set.
+  2. Shuffle the group labels (`IS_WEATHER`) 1,000 times, keeping predictions fixed.
+  3. Recompute \(T\) each time to form the null distribution.
+  4. The p-value is the fraction of shuffled \(T\) values at least as large as the observed \(T\).
 
-The observed RMSE difference was compared against the permutation distribution of differences from 1,000 shuffles. The resulting p value was about **0.366**.
+- **Result:** The permutation test produced **p ≈ 0.366**, so at \(\alpha = 0.05\) we **fail to reject H₀**. The results do not provide sufficient statistical evidence that the model performs differently for severe weather outages than for non-weather outages. Therefore, we do not find the model to perform unfairly under this metric.
+
 
 <img src="assets/fairness_rmse_perm.png" width="800" height="600" alt="Permutation test RMSE difference by weather group">
 
-At a significance level of α = 0.05, we fail to reject the null hypothesis. The results do not provide sufficient statistical evidence that the model performs differently for severe weather outages than for non-weather outages. Therefore, we do not find the model to perform unfairly under this metric.
 
 ---
 
