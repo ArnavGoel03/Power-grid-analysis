@@ -1,6 +1,6 @@
 # Storms, Prices, and the Power Grid
 
-by Arnav Goel and Paulina Pelayo (a2goel@ucsd.edu & pepelayo@ucsd.edu)
+by Arnav Goel and Paulina Pelayo (a2goel@ucsd.edu & ppelayo@ucsd.edu)
 
 ---
 
@@ -8,7 +8,7 @@ by Arnav Goel and Paulina Pelayo (a2goel@ucsd.edu & pepelayo@ucsd.edu)
 
 This project analyzes major U.S. power outages in the continental United States between 2000 and 2016, using a dataset compiled from the U.S. Department of Energy. A “major outage” is defined as an event that affects at least 50,000 customers or causes an unplanned firm load loss of at least 300 MW.
 
-Our cleaned dataset contains **TODO: fill in number of rows** outages and 57 columns. We focus on:
+Our cleaned dataset contains 1534 outages and 53 columns. We focus on:
 
 - `OUTAGE.DURATION` – total duration of the outage in minutes  
 - `CAUSE.CATEGORY` – high level cause (for example, severe weather, equipment failure, intentional attack)  
