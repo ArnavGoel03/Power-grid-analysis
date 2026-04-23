@@ -1,20 +1,26 @@
 cff-version: 1.2.0
 message: "If you use this software or dataset analysis, please cite it as below."
-title: "Power Grid Outage Analysis: Predicting U.S. Outage Severity from Weather, Price, and Population Signals"
+title: "Storms, Prices, and the Power Grid: Predicting U.S. Outage Severity from Weather, Price, and Population Signals"
 doi: 10.5281/zenodo.19707994
-version: 1.0.0
+version: 1.1.0
 identifiers:
   - type: doi
     value: 10.5281/zenodo.19707994
-    description: Concept DOI for the work on Zenodo (resolves to latest version)
+    description: Concept DOI for the work on Zenodo (resolves to the latest version)
 abstract: >-
-  An exploratory and predictive analysis of major U.S. power outages between
-  2000 and 2016, compiled from U.S. Department of Energy records. The project
-  investigates how weather conditions, electricity prices, and population
-  density relate to outage duration and severity, with a predictive model
-  benchmarked against a constant-prediction baseline. Includes a cleaned
-  dataset of 1,534 outages across 53 features, reproducible notebooks, and
-  interactive visualizations.
+  An exploratory and predictive analysis of 1,534 major U.S. power outages
+  between 2000 and 2016, compiled from U.S. Department of Energy records.
+  The study investigates how weather conditions, electricity prices, and
+  population density relate to outage duration and severity. Covers the full
+  workflow: data cleaning and timestamp reconciliation, NMAR missingness
+  reasoning, permutation testing on residential price groups, and a Random
+  Forest regression benchmarked against a Linear Regression baseline, with
+  a permutation based fairness check across severe weather and non weather
+  outages. Archives the rendered writeup, the `CITATION.cff` metadata, and
+  eleven interactive Plotly figures covering the ECDF of outage duration,
+  cause frequency, density versus outage count, duration by cause, price,
+  and season, and the fairness permutation test. Conducted as a two person
+  final project for DSC 80 at UC San Diego.
 type: software
 authors:
   - family-names: Goel

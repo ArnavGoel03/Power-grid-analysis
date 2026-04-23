@@ -1,65 +1,42 @@
-# remote_theme: pages-themes/cayman@v0.2.0
-# plugins:
-#   - jekyll-remote-theme
-
-# title: Power-grid-analysis
-# description: this is a project for DSC 80 at UCSD.
-
-# remote_theme: pages-themes/slate@v0.2.0
-# plugins:
-#   - jekyll-remote-theme
-
-# title: Power-grid-analysis
-# description: this is a project for DSC 80 at UCSD.
-
-# -----------------------
-# MAIN CONFIGURATION
-# -----------------------
 title: Storms, Prices, and the Power Grid
-description: "DSC 80 project on U.S. power outages."
+description: "DSC 80 final project on U.S. power outage severity. By Arnav Goel and Paulina Pelayo at UC San Diego."
 url: "https://arnavgoel03.github.io"
 baseurl: "/Power-grid-analysis"
 
-# Version v9.2.1 is required for the free dark mode toggle
 remote_theme: hydecorp/hydejack@v9.2.1
 
 plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
 
-# -----------------------
-# THEME SETTINGS
-# -----------------------
 locale: en
 
 hydejack:
-  # Setting this to 'true' enables the sun/moon toggle button
   dark_mode: true
 
-# Clean sidebar style
 accent_color: "#252a34"
-theme_color:  "#252a34"
-cover_image:  ""
+theme_color: "#252a34"
+cover_image: ""
 sidebar_image: /image1.jpg
 
 menu:
   - title: Home
     url: /
   - title: Analysis
-    url: #section-analysis
+    url: "#section-analysis"
   - title: Data
-    # UPDATED LINK BELOW
     url: https://engineering.purdue.edu/LASCI/research-data/outages/
   - title: GitHub
-    url: https://github.com/arnavgoel03/Power-grid-analysis
+    url: https://github.com/ArnavGoel03/Power-grid-analysis
     icon: icon-github
 
 author:
   name: "Arnav Goel"
-  bio: "DSC 80 Analysis"
+  bio: "Data Science student at UC San Diego."
   avatar: /image1.jpg
   social:
-    github: arnavgoel03
+    github: ArnavGoel03
+    orcid: 0009-0007-6477-6501
 
 sidebar:
   open: true
