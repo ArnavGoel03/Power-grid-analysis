@@ -1,6 +1,9 @@
 
 by Arnav Goel and Paulina Pelayo (a2goel@ucsd.edu & ppelayo@ucsd.edu)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19707994.svg)](https://doi.org/10.5281/zenodo.19707994)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ---
 
 ## Introduction

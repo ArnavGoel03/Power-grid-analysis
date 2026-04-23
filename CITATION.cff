@@ -1,6 +1,12 @@
 cff-version: 1.2.0
 message: "If you use this software or dataset analysis, please cite it as below."
 title: "Power Grid Outage Analysis: Predicting U.S. Outage Severity from Weather, Price, and Population Signals"
+doi: 10.5281/zenodo.19707994
+version: 1.0.0
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.19707994
+    description: Concept DOI for the work on Zenodo (resolves to latest version)
 abstract: >-
   An exploratory and predictive analysis of major U.S. power outages between
   2000 and 2016, compiled from U.S. Department of Energy records. The project
