@@ -11,6 +11,46 @@ const expected = [...source.matchAll(/<iframe\b[^>]*>/gs)].map(([tag]) => ({
   height: Number(tag.match(/height="(\d+)"/)[1]),
 }));
 assert.equal(expected.length, 10);
+const documentURLs = new Set(expected.map(frame => new URL(frame.src, url).href));
+const finalDocumentURL = new URL(expected.at(-1).src, url).href;
+
+function trackDocumentRequests(page) {
+  const requested = new Set();
+  page.on('request', request => {
+    if (request.resourceType() === 'document' && documentURLs.has(request.url())) {
+      requested.add(request.url());
+    }
+  });
+  return requested;
+}
+
+function assertInitialDeferral(requested) {
+  assert(requested.size < expected.length, 'All ten frame documents requested before scrolling');
+  assert(!requested.has(finalDocumentURL), 'Final figure requested before scrolling');
+}
+
+async function checkEagerControl(context) {
+  const control = await context.newPage();
+  control.setDefaultTimeout(15000);
+  const requested = trackDocumentRequests(control);
+  try {
+    const response = await control.goto(url, { waitUntil: 'domcontentloaded', timeout: 25000 });
+    assert.equal(response.status(), 200);
+    const frames = control.locator('iframe[src^="assets/"]');
+    assert.equal(await frames.count(), expected.length);
+    await frames.evaluateAll(elements => {
+      for (const element of elements) element.loading = 'eager';
+    });
+    const deadline = Date.now() + 15000;
+    while (requested.size < expected.length && Date.now() < deadline) {
+      await control.waitForTimeout(50);
+    }
+    assert.equal(requested.size, expected.length, 'Eager control did not request every document');
+    assert.throws(() => assertInitialDeferral(requested), /requested before scrolling/);
+    return requested.size;
+  } finally { await control.close(); }
+}
+
 const browser = await chromium.launch();
 const results = [];
 try {
@@ -18,7 +58,10 @@ try {
     const context = await browser.newContext({ viewport });
     const page = await context.newPage();
     page.setDefaultTimeout(15000);
-    const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 25000 });
+    // Observe starts before navigation: frame URLs only change when pending
+    // document requests commit, which can hide eager downloads on a slow link.
+    const requested = trackDocumentRequests(page);
+    const response = await page.goto(url, { waitUntil: 'load', timeout: 25000 });
     assert.equal(response.status(), 200);
     const frames = page.locator('iframe[src^="assets/"]');
     await frames.first().waitFor();
@@ -28,10 +71,13 @@ try {
       assert.equal(await frames.nth(i).getAttribute('src'), expected[i].src);
       assert.equal(Number(await frames.nth(i).getAttribute('height')), expected[i].height);
     }
-    const loadedInitially = page.frames().filter(frame => frame.url().includes('/assets/')).length;
-    assert(loadedInitially < 10, `All ten frames eagerly loaded at ${viewport.width}px`);
-    assert(!page.frames().some(frame => frame.url().endsWith(expected.at(-1).src)), 'Final figure loaded before scrolling');
+    await page.waitForFunction(() => document.fonts.status === 'loaded');
+    // Allow lazy-load scheduling after the load/font layout boundary. This is
+    // a bounded startup observation, not an assertion about every future timer.
+    await page.waitForTimeout(500);
     await page.screenshot({ path: `${out}/${viewport.width}-opening.png` });
+    const initiallyRequested = [...requested];
+    assertInitialDeferral(requested);
     let charts = 0, tables = 0;
     for (let i = 0; i < expected.length; i++) {
       const element = frames.nth(i);
@@ -45,11 +91,13 @@ try {
       }
       const box = await element.boundingBox();
       assert(Math.abs(box.height - expected[i].height) <= 4, 'Reserved frame height changed');
-      assert(box.width <= viewport.width, 'Frame exceeds viewport width');
+      assert(box.x >= -1 && box.x + box.width <= viewport.width + 1, 'Frame exceeds viewport edges');
       if (i === 1 || i === 9) await page.screenshot({ path: `${out}/${viewport.width}-figure-${i}.png` });
     }
     assert.equal(charts, 6); assert.equal(tables, 4);
-    results.push({ viewport, loadedInitially, charts, tables });
+    assert.equal(requested.size, expected.length, 'Scrolling did not request every document');
+    const eagerControlRequests = await checkEagerControl(context);
+    results.push({ viewport, initiallyRequested, eagerControlRequests, charts, tables });
     await context.close();
   }
 } finally { await browser.close(); }
