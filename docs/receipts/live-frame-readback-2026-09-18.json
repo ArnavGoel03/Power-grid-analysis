@@ -1,0 +1,65 @@
+{
+  "frame_attributes_match": true,
+  "frames": [
+    {
+      "src": "assets/df_head.html",
+      "status": 200,
+      "sha256": "c01e5b9e98ec931a57b9cb250d4f6f34b64bb7030df3126804cdd2bbdc76c349",
+      "matches_local": true
+    },
+    {
+      "src": "assets/duration_ecdf.html",
+      "status": 200,
+      "sha256": "c2ebeb350f77264a1a9d64a4184be6e121c44ec6f03b2e076fcf7430223fb56e",
+      "matches_local": true
+    },
+    {
+      "src": "assets/causes_bar.html",
+      "status": 200,
+      "sha256": "fab4728c4ea75aad8cba0969bf30ad06609bd64c1cf23a361e82ea695eb46af4",
+      "matches_local": true
+    },
+    {
+      "src": "assets/density_vs_outages.html",
+      "status": 200,
+      "sha256": "7db26507ca4e838b9f91ef4af9dae34e7b4d610ed6d406cf2edb7417fb613d86",
+      "matches_local": true
+    },
+    {
+      "src": "assets/duration_vs_customers.html",
+      "status": 200,
+      "sha256": "24d1a541d071471b3943f826bc18961b916fda69e853a69b10a891a5e495d782",
+      "matches_local": true
+    },
+    {
+      "src": "assets/duration_by_cause_table.html",
+      "status": 200,
+      "sha256": "944a79c00bbce54361899a8cdfcc4ae2461e35f486f5341032fa6a4d5fb39a18",
+      "matches_local": true
+    },
+    {
+      "src": "assets/pivot_cause_season_table.html",
+      "status": 200,
+      "sha256": "a57196b3322c5da7e6cc008773a6fe09e0f3541f4a808078f034efafcf5a20b5",
+      "matches_local": true
+    },
+    {
+      "src": "assets/duration_by_price_table.html",
+      "status": 200,
+      "sha256": "61e21e385f6556da9788d6f8290514638e11490b44a4295130784830d1e793bf",
+      "matches_local": true
+    },
+    {
+      "src": "assets/missingness_by_cause.html",
+      "status": 200,
+      "sha256": "6c19f818c1d00883713b22d1fa4c5a50ca08eafd2ce62a665499f5ea329b95d6",
+      "matches_local": true
+    },
+    {
+      "src": "assets/missingness_month_box.html",
+      "status": 200,
+      "sha256": "bd3cf5417f6587dfb97a0283c98cc1f28b2516e30c921d6817b2e86342cd0856",
+      "matches_local": true
+    }
+  ]
+}

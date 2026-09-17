@@ -1,5 +1,18 @@
 # Power Grid current handover
 
+## Current live readback, 18 September 2026
+
+The GitHub Pages article returns HTTP 200. All ten live iframe src/width/height/
+loading/style attributes match README, and all ten frame documents return 200
+with bytes exactly matching the local assets. Receipt:
+`docs/receipts/live-frame-readback-2026-09-18.json`.
+
+GitHub confirms Chromium acceptance run 35168433667 succeeded; the tested README
+and frame assets are unchanged. Its desktop/phone eager-control and scroll-to-chart
+comparison remains applicable, so no identical browser gate was rerun. This does
+not extend the result to WebKit, Firefox, physical devices or Web Vitals. GitHub
+API confirms this is a public repository. No code or research content changed.
+
 Updated 2026-09-17. This is a static DSC 80 research writeup, hosted by GitHub
 Pages at https://arnavgoel03.github.io/Power-grid-analysis/.
 `index.md` includes README.md through Jekyll and the Hydejack theme. There is no
