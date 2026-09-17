@@ -45,13 +45,14 @@ We performed several data cleaning steps to make the outage records usable for a
 * Treated zeros in `CUSTOMERS.AFFECTED`, `OUTAGE.DURATION`, and `DEMAND.LOSS.MW` as missing values since "0" in this dataset typically reflects "not recorded" rather than a true zero, which avoids biasing distributions and keeps missingness analysis meaningful.
 * Removed unused identifier columns such as `OBS` and `variables`, reducing noise and preventing models from learning patterns tied to row identifiers instead of real outage drivers.
 
-<iframe src="assets/df_head.html" width="100%" height="300"></iframe>
+<iframe loading="lazy" src="assets/df_head.html" width="100%" height="300"></iframe>
 
 To understand the distribution of outage duration, we first plotted an ECDF:
 
-<iframe
+<iframe loading="lazy"
   src="assets/duration_ecdf.html"
   width="800"
+  style="max-width:100%"
   height="600"
   frameborder="0"
 ></iframe>
@@ -60,9 +61,10 @@ Roughly 80 percent of outages last fewer than about 3,000 minutes, so the distri
 
 We also examined what actually causes outages. The bar chart below summarizes the frequency of high level causes:
 
-<iframe
+<iframe loading="lazy"
   src="assets/causes_bar.html"
   width="800"
+  style="max-width:100%"
   height="600"
   frameborder="0"
 ></iframe>
@@ -71,9 +73,10 @@ Severe weather is by far the most common cause of major outages, followed by int
 
 To study how outages relate to state level characteristics, we aggregated by state and looked at the relationship between urban density and outage count:
 
-<iframe
+<iframe loading="lazy"
   src="assets/density_vs_outages.html"
   width="800"
+  style="max-width:100%"
   height="600"
   frameborder="0"
 ></iframe>
@@ -82,9 +85,10 @@ States with higher urban population density generally experience more major outa
 
 Finally, we explored how outage size and duration relate:
 
-<iframe
+<iframe loading="lazy"
   src="assets/duration_vs_customers.html"
   width="800"
+  style="max-width:100%"
   height="600"
   frameborder="0"
 ></iframe>
@@ -93,17 +97,17 @@ Outages that affect more customers tend to last longer on average, but there is 
 
 To better compare the severity of different causes, we summarized outage duration by `CAUSE.CATEGORY`:
 
-<iframe src="assets/duration_by_cause_table.html" width="100%" height="260" frameborder="0"></iframe>
+<iframe loading="lazy" src="assets/duration_by_cause_table.html" width="100%" height="260" frameborder="0"></iframe>
 
 Fuel supply emergencies have the longest average and median outage durations, indicating rare but extremely severe events. Severe weather is the most common cause and also produces long outages. Intentional attacks and islanding tend to be shorter disruptions on average.
 
 
-<iframe src="assets/pivot_cause_season_table.html" width="100%" height="320" frameborder="0"></iframe>
+<iframe loading="lazy" src="assets/pivot_cause_season_table.html" width="100%" height="320" frameborder="0"></iframe>
 
 This shows strong seasonal effects on outage duration. Severe weather leads to long outages across all seasons. Fuel supply emergencies are most severe in winter, likely due to heating demands and constrained energy supply. Summer shows higher durations for operability failure, possibly from increased use of air conditioning and peak electricity usage.
 
 
-<iframe src="assets/duration_by_price_table.html" width="100%" height="220" frameborder="0"></iframe>
+<iframe loading="lazy" src="assets/duration_by_price_table.html" width="100%" height="220" frameborder="0"></iframe>
 
 Comparing outage duration across price groups shows that low price states experience longer typical outages than high price states, with both higher mean and median durations. This suggests that electricity pricing may serve as a proxy for infrastructure investment and grid reliability, motivating a formal hypothesis test of whether high price states systematically experience shorter outages.
 
@@ -127,9 +131,10 @@ We created an indicator column `LOSS_MISSING` for whether `DEMAND.LOSS.MW` is mi
 
 We visualized this using a bar chart of missingness by cause:
 
-<iframe
+<iframe loading="lazy"
   src="assets/missingness_by_cause.html"
   width="800"
+  style="max-width:100%"
   height="600"
   frameborder="0"
 ></iframe>
@@ -140,9 +145,10 @@ Next we tested whether missingness depends on `MONTH`. Our test statistic was th
 
 This is also reflected in the box plot below:
 
-<iframe
+<iframe loading="lazy"
   src="assets/missingness_month_box.html"
   width="800"
+  style="max-width:100%"
   height="600"
   frameborder="0"
 ></iframe>

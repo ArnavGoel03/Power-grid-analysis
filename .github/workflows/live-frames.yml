@@ -1,0 +1,31 @@
+name: Live frame acceptance
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned browser tooling
+        run: |
+          npm install --prefix "$RUNNER_TEMP/power-grid-check" --no-package-lock playwright@1.63.0
+          "$RUNNER_TEMP/power-grid-check/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Verify deployed article and all frames
+        env:
+          ARTIFACT_DIR: ${{ github.workspace }}/artifacts
+          README_PATH: ${{ github.workspace }}/README.md
+        run: |
+          cp scripts/check-live-frames.mjs "$RUNNER_TEMP/power-grid-check/check.mjs"
+          node "$RUNNER_TEMP/power-grid-check/check.mjs"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: live-frame-evidence
+          path: artifacts/
+          retention-days: 7
